@@ -1,0 +1,587 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Rage Bait Generator</title><meta name="robots" content="noindex, nofollow"><meta name="referrer" content="no-referrer"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}[hidden]{display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<style>
+/* Same look as the Philchat generator. Screen 1 "What are they doing?" — a grid of situations.
+   Screen 2 — "Rage bait for when they're… [situation]" → the line in a book serif → Shuffle. */
+:root{
+  --bg:#ffffff; --ink:#18181a; --soft:#55555c; --muted:#8b8b93; --line:#e8e8ec; --hover:#f4f4f6; --hover-soft:#f9f9fa; --fill:#f6f6f8; --pop:#ffffff; --ring:#ececf0;
+  --shadow:0 12px 32px -12px rgba(20,20,30,.22),0 0 0 1px rgba(20,20,30,.06);
+  --rage:#e0412f;
+  --sans:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b0b0c; --ink:#ececee; --soft:#b0b0b8; --muted:#76767e; --line:#222226; --hover:#17171a; --hover-soft:#121214; --fill:#131315; --pop:#141416; --ring:#202024;
+  --shadow:0 16px 40px -12px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06); --rage:#ff6a57; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0b0b0c; --ink:#ececee; --soft:#b0b0b8; --muted:#76767e; --line:#222226; --hover:#17171a; --hover-soft:#121214; --fill:#131315; --pop:#141416; --ring:#202024;
+  --shadow:0 16px 40px -12px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06); --rage:#ff6a57; color-scheme:dark;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+.tile:active,.trigger:active,.list li:active,.textbtn:active,.icon:active,.mark:active{background:var(--hover-soft)}
+.back:active{background:var(--fill)}
+button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
+body{background:var(--bg);color:var(--ink);font:400 14px/1.5 var(--sans);transition:background-color .4s,color .4s;
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));padding-block:64px 96px}
+.wrap{max-width:540px;margin:0 auto;display:flex;flex-direction:column}
+body:not(.on-gen) .wrap{max-width:820px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:56px}
+.mark{font-size:14px;color:var(--muted);letter-spacing:.01em;text-decoration:none;border-radius:6px;transition:opacity .2s;white-space:nowrap;-webkit-touch-callout:none}
+.mark:hover{opacity:.7}
+.mark:focus-visible{outline:1.5px solid var(--ink);outline-offset:3px}
+.mark b{font-weight:500;color:var(--ink)}
+.mark .gen{opacity:.6}
+body.on-gen header{margin-bottom:22px}
+body.on-gen .mark{font:400 15px var(--sans)}
+.mark.fade{animation:markin .9s cubic-bezier(.2,.7,.2,1)}
+@keyframes markin{from{opacity:0;filter:blur(2px);transform:translateY(3px)}to{opacity:1;filter:none;transform:none}}
+.actions{display:flex;align-items:center;gap:4px}
+.icon{width:34px;height:34px;border-radius:50%;border:0;background:transparent;color:var(--muted);cursor:pointer;display:grid;place-items:center;transition:color .2s,background-color .2s}
+.icon:hover{color:var(--ink);background:var(--hover)}
+.icon svg{width:16px;height:16px}
+.textbtn{font:400 13px var(--sans);color:var(--muted);background:transparent;border:0;cursor:pointer;padding:8px 12px;border-radius:999px;transition:color .2s,background-color .2s}
+.textbtn:hover{color:var(--ink);background:var(--hover)}
+
+.av{position:relative;flex:none;border-radius:50%;background:var(--ring);overflow:hidden;display:inline-grid;place-items:center}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.av.s20{width:20px;height:20px}
+
+/* ---------- What are they doing ---------- */
+.who-h{font:400 clamp(26px,4.6vw,33px)/1.1 var(--serif);letter-spacing:-.015em;margin:0 0 36px;text-wrap:balance}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;text-align:left;border:1px solid var(--line);background:transparent;cursor:pointer;color:var(--ink);
+  padding:16px 18px 18px;border-radius:14px;opacity:0;transform:translateY(8px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards;transition:background-color .2s,border-color .2s}
+.tile .sit{font:400 19px/1.25 var(--serif);letter-spacing:-.005em;text-wrap:balance}
+.tile .sit i{font-style:normal;color:var(--muted)}
+.tile .ex{font:400 13px/1.4 var(--sans);color:var(--muted);text-wrap:balance}
+.tile:hover{background:var(--hover-soft);border-color:var(--muted)}
+.tile:hover .ex{color:var(--soft)}
+@keyframes rise{to{opacity:1;transform:none}}
+.leaving .tile{animation:out .32s cubic-bezier(.4,0,.6,1) forwards!important}
+@keyframes out{to{opacity:0;transform:translateY(-4px) scale(.985);filter:blur(2px)}}
+.any-row{display:flex;justify-content:center;margin-top:22px}
+.anybtn{display:inline-flex;align-items:center;gap:8px}
+.anybtn .dot{width:7px;height:7px;border-radius:50%;background:var(--rage)}
+header,.who-h,.any-row{transition:opacity .32s cubic-bezier(.4,0,.6,1),filter .32s}
+.wrap.swapping header,.wrap.swapping .who-h,.wrap.swapping .any-row{opacity:0;filter:blur(2px)}
+#gen.leaving{animation:genout .32s cubic-bezier(.4,0,.6,1) forwards}
+@keyframes genout{to{opacity:0;transform:translateY(-4px);filter:blur(2px)}}
+#gen.enter>.top,#gen.enter>.line,#gen.enter>.mid,#gen.enter>.foot{opacity:0;animation:settle .7s cubic-bezier(.2,.7,.2,1) forwards}
+#gen.enter>.line{animation-delay:.1s}
+#gen.enter>.mid{animation-delay:.19s}
+#gen.enter>.foot{animation-delay:.25s}
+@keyframes settle{from{opacity:0;transform:translateY(10px);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+#who.enter .who-h{animation:settle .6s cubic-bezier(.2,.7,.2,1)}
+
+/* ---------- Generator ---------- */
+.top{display:flex;align-items:center}
+.picker{position:relative;flex:1;min-width:0}
+.trigger{display:flex;align-items:center;gap:14px;width:100%;background:transparent;border:0;padding:8px 14px;margin-left:-14px;border-radius:999px;color:var(--ink);text-align:left;font:inherit;cursor:pointer;transition:background-color .2s}
+.trigger:hover{background:var(--hover)}
+.trigger .n{font:400 24px/1.2 var(--serif);letter-spacing:-.012em;min-width:0;text-wrap:balance}
+.trigger .chev{margin-left:auto;width:17px;height:17px;color:var(--muted);flex:none;transition:transform .3s}
+.picker.open .chev{transform:rotate(180deg)}
+.trigger .chev.breathe{animation:breathe 1.5s ease-in-out}
+@keyframes breathe{0%,100%{transform:none;color:var(--muted)}30%{transform:scale(1.45);color:var(--ink)}55%{transform:scale(1.05)}75%{transform:scale(1.3);color:var(--ink)}}
+.pop{position:absolute;left:-14px;right:-6px;top:calc(100% + 8px);z-index:20;background:var(--pop);border-radius:14px;box-shadow:var(--shadow);padding:6px;
+  opacity:0;transform:translateY(-4px) scale(.985);transform-origin:top center;pointer-events:none;transition:opacity .18s,transform .18s}
+.picker.open .pop{opacity:1;transform:none;pointer-events:auto}
+.list{list-style:none;margin:0;padding:0;max-height:440px;overflow-y:auto;overscroll-behavior:contain}
+.list li{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:10px;cursor:pointer;font-size:15px;color:var(--soft)}
+.list li .dot{width:7px;height:7px;border-radius:50%;background:var(--rage);flex:none}
+.list li[aria-selected="true"]{color:var(--ink);font-weight:500}
+.list li.act{background:var(--hover);color:var(--ink)}
+.list li .tick{margin-left:auto;width:13px;height:13px;opacity:0;flex:none}
+.list li[aria-selected="true"] .tick{opacity:1}
+.list li.sep{height:1px;padding:0;margin:5px 8px;background:var(--line);cursor:default;pointer-events:none}
+
+.line{margin:52px 0 0;min-height:180px}
+.out{margin:0;font:400 clamp(26px,5vw,36px)/1.3 var(--serif);letter-spacing:-.012em;color:var(--ink);overflow-wrap:anywhere;text-wrap:balance}
+.out.enter{animation:enter .6s cubic-bezier(.2,.7,.2,1)}
+@keyframes enter{from{opacity:0;transform:translateY(6px);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+.for{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);min-height:30px}
+.for b{font-weight:500;color:var(--soft)}
+.for:empty{visibility:hidden}
+.mid{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;margin-top:34px;padding-bottom:26px;border-bottom:1px solid var(--line)}
+.foot{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:26px}
+.back{display:none;align-items:center;justify-content:center;width:38px;height:38px;color:var(--soft);background:transparent;border:1px solid var(--line);border-radius:50%;padding:0;cursor:pointer;transition:border-color .2s,color .2s,transform .12s}
+.back:hover{border-color:var(--muted);color:var(--ink)}
+.back svg{width:16px;height:16px;transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
+.back:hover svg{transform:rotate(-40deg)}
+.back.show{display:inline-flex;animation:backin .35s cubic-bezier(.2,.7,.2,1)}
+@keyframes backin{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
+.shuffle{display:inline-flex;align-items:center;gap:8px;font:500 13.5px var(--sans);color:var(--bg);background:var(--ink);border:0;border-radius:999px;padding:10px 18px 10px 15px;cursor:pointer;transition:transform .12s,background-color .4s,color .4s}
+.shuffle:active{transform:scale(.96)}
+.shuffle svg{width:14px;height:14px;transition:transform .5s cubic-bezier(.3,1.3,.5,1)}
+
+.credit{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);z-index:5}
+.credit b{font-weight:500;color:var(--soft)}
+button:focus-visible{outline:1.5px solid var(--ink);outline-offset:2px}
+
+@media (min-width:900px){
+  body:not(.on-gen){padding-block:44px 40px}
+  body:not(.on-gen) header{margin-bottom:36px}
+}
+@media (max-width:760px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:560px){
+  body{padding-block:36px 72px} header{margin-bottom:40px}
+  .grid{gap:8px}
+  .tile{padding:13px 14px 15px;gap:6px}
+  .tile .sit{font-size:17px}
+  .tile .ex{font-size:12.5px}
+  .trigger .n{font-size:21px}
+  .credit{position:static;justify-content:flex-end;margin:56px auto 0;max-width:540px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.tile{opacity:1;transform:none}}
+</style>
+
+<div class="wrap" id="wrapper">
+  <header>
+    <a class="mark" id="home" href="#"></a>
+    <div class="actions">
+      <button class="icon" id="copy" aria-label="Copy line" title="Copy" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+      </button>
+      <button class="icon" id="theme" aria-label="Switch between white and black" title="White / black">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <section class="screen" id="who">
+    <h1 class="who-h">What are they doing?</h1>
+    <div class="grid" id="grid"></div>
+    <div class="any-row"><button class="textbtn anybtn" id="anybtn"><span class="dot"></span>Doesn't matter, just give me something</button></div>
+  </section>
+
+  <section class="screen" id="gen" hidden>
+    <div class="top">
+      <div class="picker" id="picker">
+        <button class="trigger" id="trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="list">
+          <span class="n" id="tname"></span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="pop" id="pop"><ul class="list" id="list" role="listbox" aria-label="Situation"></ul></div>
+      </div>
+    </div>
+    <div class="line" aria-live="polite"><p class="out" id="out"></p></div>
+    <div class="mid"><div class="for" id="for"></div></div>
+    <div class="foot">
+      <button class="back" id="back" aria-label="Previous line" title="Previous line">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.64-6.36"/><path d="M3 3v6h6"/></svg>
+      </button>
+      <button class="shuffle" id="shuffle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+        Shuffle
+      </button>
+    </div>
+  </section>
+</div>
+
+<div class="credit" id="credit">made by <b>Jere</b></div>
+
+<!-- The module: one entry per situation. s = what they're doing (reads after "when they're…"), a = the lines. -->
+<script id="data" type="application/json">[
+{"s":"arguing with someone else","a":[
+"You're both right.",
+"Let's look at both sides.",
+"The truth is probably somewhere in the middle.",
+"Honestly, there are good points on both sides.",
+"I think you're both kind of saying the same thing.",
+"Both things can be true.",
+"It's a little more nuanced than that.",
+"I can see where you're both coming from.",
+"Why not both?",
+"Honestly the answer is a bit of both.",
+"There's no right answer here.",
+"It's not black and white.",
+"Let's just meet in the middle.",
+"Can we all just agree it's complicated?",
+"I'm not on either side, I just think you're both being extreme.",
+"Extremes on both sides, honestly.",
+"I'd call it 50/50.",
+"Have you considered that you're both wrong?",
+"This is just a semantic disagreement.",
+"You'd both agree if you sat down and talked about it."]},
+{"s":"getting heated","a":[
+"Why are you getting so worked up?",
+"Calm down.",
+"Relax, it's not that deep.",
+"You seem upset.",
+"Okay, no need to get emotional.",
+"You'd be more convincing if you weren't so angry.",
+"Take a breath.",
+"Wow, touched a nerve.",
+"It's not that serious.",
+"You don't have to yell.",
+"Interesting how defensive you're getting.",
+"I'm not going to engage while you're like this.",
+"Can we have a civil conversation?",
+"Let's lower the temperature a bit.",
+"The fact that you're this mad kind of proves my point.",
+"Breathe.",
+"Maybe step away from the screen for a minute.",
+"Whoa, okay.",
+"Sounds like this is personal for you.",
+"I'm sensing some hostility."]},
+{"s":"sending a wall of text","a":[
+"Okay.",
+"k.",
+"Noted.",
+"Interesting.",
+"Sure.",
+"If you say so.",
+"And?",
+"Anyway.",
+"lol",
+"Agree to disagree.",
+"That's nice.",
+"Mhm.",
+"Fair.",
+"Not reading all that, but I'm sure you're right.",
+"tl;dr?",
+"Who asked?",
+"Cool essay.",
+"👍",
+"Can you summarize that in one sentence?",
+"I skimmed it. Still disagree."]},
+{"s":"citing facts","a":[
+"That's just your opinion.",
+"Who's to say, really?",
+"It's all subjective anyway.",
+"Everyone's entitled to their opinion.",
+"Well, it depends how you define it.",
+"Truth is relative.",
+"That's your truth.",
+"Facts can be interpreted a lot of ways.",
+"Science changes its mind all the time.",
+"Studies can say anything.",
+"That's one perspective.",
+"Experts have been wrong before.",
+"We can't really know anything for sure.",
+"Says who?",
+"It's all perspective.",
+"Right and wrong are just social constructs.",
+"Who decides what's true, though?",
+"Different strokes.",
+"There's no objective answer here.",
+"Numbers don't tell the whole story."]},
+{"s":"explaining something","a":[
+"I used to think that too.",
+"You'll understand when you're older.",
+"It's actually pretty simple.",
+"That's a really common misconception.",
+"Do your own research.",
+"I'm not going to do the work for you.",
+"Read a book.",
+"Let me explain it slower.",
+"Aw.",
+"Bless your heart.",
+"Cute.",
+"This is a beginner take, but that's okay.",
+"Everyone goes through this phase.",
+"You're so close.",
+"I can tell you really thought about this.",
+"Not everyone can see it, and that's fine.",
+"I'd explain, but I don't think it would land.",
+"One day this will click for you.",
+"Good effort.",
+"Look it up."]},
+{"s":"making an obvious point","a":[
+"Well, technically…",
+"Source?",
+"Define “fair.”",
+"That's not what that word means.",
+"*you're",
+"Citation needed.",
+"Small correction:",
+"Not to nitpick, but…",
+"You mean “fewer.”",
+"That's anecdotal.",
+"Correlation isn't causation.",
+"That's a logical fallacy.",
+"Strawman.",
+"Ad hominem.",
+"Which study?",
+"Can you define your terms first?",
+"Depends what you mean by “is.”",
+"Literally?",
+"Okay, but that's just semantics.",
+"Burden of proof is on you."]},
+{"s":"waiting for an apology","a":[
+"I'm sorry you feel that way.",
+"Fair enough, but…",
+"No offense, but…",
+"With all due respect…",
+"Not to be that guy, but…",
+"I hear you.",
+"Valid.",
+"I respect that. I just disagree.",
+"I'm not saying you're wrong, I'm just saying I'm right.",
+"Sorry if that came across wrong.",
+"Mistakes were made.",
+"I'm sorry you took it that way.",
+"Okay, I'll admit you have one point.",
+"I'll let you have this one.",
+"Point taken. Anyway, as I was saying…",
+"Thanks for sharing.",
+"I appreciate your passion.",
+"That's fair. Wrong, but fair.",
+"I apologize for nothing, but I understand why you'd want me to.",
+"Sorry. Happy?"]},
+{"s":"treating it like life or death","a":[
+"Does it really matter in the grand scheme of things?",
+"In a hundred years none of this will matter.",
+"Who cares?",
+"It's just the internet.",
+"There are bigger problems in the world.",
+"It is what it is.",
+"We're all going to die anyway.",
+"Touch grass.",
+"Go outside.",
+"Why do you care so much?",
+"Life's too short.",
+"Is this really the hill you want to die on?",
+"The universe doesn't care either way.",
+"Everything happens for a reason.",
+"Just let it go.",
+"Interesting thing to be passionate about.",
+"Nobody will remember this next week.",
+"Have you tried just not caring?",
+"Pick your battles.",
+"Honestly, kind of a first-world problem."]},
+{"s":"saying what everyone agrees with","a":[
+"Just playing devil's advocate.",
+"I'm just asking questions.",
+"I'm not saying I agree, but…",
+"Let me steelman the other side for a sec.",
+"Has anyone considered the opposite?",
+"Not saying it's true, just saying it's possible.",
+"I'm just curious.",
+"Hypothetically, though.",
+"Someone has to say it.",
+"I'm not taking a side, I'm just pointing out that you're wrong.",
+"Just a thought.",
+"Food for thought.",
+"What if they're right, though?",
+"Can we at least admit the other side has a point?",
+"I'm just trying to start a conversation.",
+"Hear me out.",
+"Unpopular opinion:",
+"Respectfully, what if not?",
+"Funny how nobody wants to talk about the other side.",
+"Echo chamber in here."]},
+{"s":"being really clear","a":[
+"So what you're saying is…",
+"So you agree with me, then.",
+"I think we actually agree.",
+"Wait, so you're against it?",
+"So you're saying nothing matters?",
+"That's literally what I said.",
+"I never said that.",
+"You're putting words in my mouth.",
+"Right, which is my point.",
+"I think you misunderstood me.",
+"So your whole argument is just vibes?",
+"So basically you're saying I'm right.",
+"I didn't say it. I implied it.",
+"Okay, so we're on the same page.",
+"You just proved my point.",
+"So you admit it.",
+"Interesting, so you're contradicting yourself.",
+"That's not what you said earlier.",
+"I'm confused, which side are you on?",
+"Let me put that in a way that makes sense."]},
+{"s":"not letting it go","a":[
+"Good talk.",
+"Glad we agree.",
+"I accept your concession.",
+"Anyway, I've made my point.",
+"I'm done here.",
+"Let's just agree I'm right and move on.",
+"I'll let the chat decide.",
+"Classic.",
+"And with that, I win.",
+"I'm not doing this today.",
+"You'll get there.",
+"gg",
+"lmao okay",
+"Let's circle back when you've calmed down.",
+"This was fun. You lost, but it was fun.",
+"I'll pray for you.",
+"I'm going to stop replying, not because you're right.",
+"Moving on.",
+"Silence is agreement.",
+"Okay, well, I'm right. Goodnight."]},
+{"s":"venting","a":[
+"Everything in moderation.",
+"Hurt people hurt people.",
+"Happiness is a choice.",
+"We're all human at the end of the day.",
+"The real enemy is division.",
+"Kindness is free.",
+"Can't we all just get along?",
+"Everyone's fighting their own battle.",
+"Comparison is the thief of joy.",
+"Let go of what you can't control.",
+"You can't pour from an empty cup.",
+"It's all about balance.",
+"Be the change.",
+"Choose peace.",
+"Negativity isn't a good look.",
+"Good vibes only.",
+"Have you tried gratitude?",
+"Maybe the real problem is how you're looking at it.",
+"Could be worse.",
+"Sounds like a growth opportunity."]}
+]</script>
+<script>
+const C = JSON.parse(document.getElementById('data').textContent);
+const JERE = "data:image/webp;base64,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";
+const UNLOCK_AFTER = 5;
+const $ = id => document.getElementById(id);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const shuf = a => { a = a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]} return a; };
+
+/* decks: no repeats until a situation (or the whole pool, for Anything) runs out */
+const decks = {};
+const pull = ci => { if(!decks[ci] || !decks[ci].length) decks[ci] = shuf(C[ci].a); return decks[ci].pop(); };
+let anyDeck = [];
+function pullAny(){
+  if(!anyDeck.length) anyDeck = shuf(C.flatMap((c,ci) => c.a.map(text => ({ci, text}))));
+  return anyDeck.pop();
+}
+
+let target = null, hist = [], hi = -1, pulls = 0, hinted = false;
+const label = t => t === 'any' ? 'doing literally anything' : C[t].s;
+
+function setMark(gen){
+  const m = $('home');
+  m.innerHTML = gen ? '<b>Rage bait</b> for when they\'re…' : '<b>Rage Bait</b> <span class="gen">Generator</span>';
+  m.classList.remove('fade'); void m.offsetWidth; m.classList.add('fade');
+  m.setAttribute('aria-label', gen ? 'Back to What are they doing?' : 'Rage Bait Generator');
+  document.body.classList.toggle('on-gen', gen);
+}
+
+/* What are they doing */
+function showWho(){
+  $('gen').hidden = true; $('who').hidden = false; $('copy').hidden = true; setMark(false);
+  const w = $('who'); w.classList.remove('enter'); void w.offsetWidth; w.classList.add('enter');
+  const g = $('grid'); g.innerHTML = ''; g.classList.remove('leaving');
+  C.forEach((c, ci) => {
+    const b = document.createElement('button'); b.className = 'tile'; b.style.animationDelay = (ci*28) + 'ms';
+    const s = document.createElement('span'); s.className = 'sit'; s.innerHTML = '<i>They\'re</i> '; s.append(c.s);
+    const e = document.createElement('span'); e.className = 'ex'; e.textContent = '“' + c.a[0].replace(/[.…:]$/,'') + '”';
+    b.append(s, e); b.onclick = () => pick(ci);
+    g.appendChild(b);
+  });
+}
+function pick(t){
+  target = t;
+  $('grid').classList.add('leaving'); $('wrapper').classList.add('swapping');
+  setTimeout(startGen, reduced ? 0 : 320);
+}
+$('anybtn').onclick = () => pick('any');
+
+function leaveGen(){
+  if($('gen').hidden) return;
+  closePicker(); $('gen').classList.add('leaving'); $('wrapper').classList.add('swapping');
+  setTimeout(() => { $('gen').classList.remove('leaving'); showWho(); requestAnimationFrame(() => $('wrapper').classList.remove('swapping')); }, reduced ? 0 : 320);
+}
+try { history.replaceState({s:'who'}, ''); } catch(e){}
+addEventListener('popstate', () => leaveGen());
+$('home').onclick = e => {
+  e.preventDefault(); if($('gen').hidden) return;
+  if(history.state && history.state.s === 'gen') history.back(); else leaveGen();
+};
+
+/* Generator */
+function startGen(){
+  try { if(!history.state || history.state.s !== 'gen') history.pushState({s:'gen'}, ''); } catch(e){}
+  $('who').hidden = true; $('gen').hidden = false; $('copy').hidden = false; setMark(true);
+  pulls = 0; hinted = false;
+  const g = $('gen'); g.classList.remove('enter'); void g.offsetWidth; g.classList.add('enter');
+  setTimeout(() => g.classList.remove('enter'), 1100);
+  requestAnimationFrame(() => requestAnimationFrame(() => $('wrapper').classList.remove('swapping')));
+  setTarget(target);
+}
+function setTarget(t){
+  target = t; hist = []; hi = -1;
+  $('tname').textContent = label(t);
+  go();
+}
+let rot = 0;
+function show(item){
+  const out = $('out');
+  out.textContent = item.text;
+  out.classList.remove('enter'); void out.offsetWidth; out.classList.add('enter');
+  const f = $('for'); f.innerHTML = '';
+  if(item.any){ const s = document.createElement('span'); s.innerHTML = 'for when they\'re <b></b>'; s.querySelector('b').textContent = C[item.ci].s; f.appendChild(s); }
+  $('back').classList.toggle('show', hi > 0);
+}
+function go(){
+  const item = target === 'any' ? {...pullAny(), any:true} : {ci: target, text: pull(target)};
+  hist = hist.slice(0, hi + 1); hist.push(item); hi = hist.length - 1;
+  rot += 180; $('shuffle').querySelector('svg').style.transform = 'rotate(' + rot + 'deg)';
+  show(item);
+}
+function shuffleNow(){
+  go(); pulls++;
+  if(pulls === UNLOCK_AFTER && !hinted){ hinted = true; const ch = $('trigger').querySelector('.chev'); ch.classList.remove('breathe'); void ch.getBoundingClientRect(); ch.classList.add('breathe'); }
+}
+$('shuffle').onclick = shuffleNow;
+$('back').onclick = () => { if(hi > 0){ hi--; show(hist[hi]); } };
+
+/* picker */
+const picker = $('picker'), list = $('list'), trigger = $('trigger');
+let items = [], act = -1;
+function renderList(){
+  list.innerHTML = ''; items = [];
+  ['any', 'sep'].concat(C.map((_,i)=>i)).forEach(key => {
+    const li = document.createElement('li');
+    if(key === 'sep'){ li.className = 'sep'; li.setAttribute('aria-hidden','true'); list.appendChild(li); return; }
+    li.setAttribute('role','option'); li.dataset.key = key;
+    li.setAttribute('aria-selected', String(String(key) === String(target)));
+    if(key === 'any'){ const d = document.createElement('span'); d.className = 'dot'; li.appendChild(d); li.append('Anything'); }
+    else li.append(C[key].s);
+    li.insertAdjacentHTML('beforeend','<svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>');
+    li.onclick = () => choose(key);
+    li.onmousemove = () => setAct(items.indexOf(li));
+    list.appendChild(li); items.push(li);
+  });
+  setAct(Math.max(0, items.findIndex(li => li.getAttribute('aria-selected') === 'true')));
+}
+function setAct(i){ items.forEach(x=>x.classList.remove('act')); act = i; if(items[i]){ items[i].classList.add('act'); items[i].scrollIntoView({block:'nearest'}); } }
+function openPicker(){ picker.classList.add('open'); trigger.setAttribute('aria-expanded','true'); renderList(); }
+function closePicker(){ picker.classList.remove('open'); trigger.setAttribute('aria-expanded','false'); }
+trigger.onclick = () => picker.classList.contains('open') ? closePicker() : openPicker();
+document.addEventListener('click', e => { if(!picker.contains(e.target)) closePicker(); });
+function choose(key){ closePicker(); trigger.focus(); setTarget(key === 'any' ? 'any' : Number(key)); }
+document.addEventListener('keydown', e => {
+  if(picker.classList.contains('open')){
+    if(e.key === 'ArrowDown'){ e.preventDefault(); setAct(Math.min(items.length-1, act+1)); }
+    else if(e.key === 'ArrowUp'){ e.preventDefault(); setAct(Math.max(0, act-1)); }
+    else if(e.key === 'Enter'){ e.preventDefault(); if(items[act]) choose(items[act].dataset.key); }
+    else if(e.key === 'Escape'){ closePicker(); trigger.focus(); }
+    return;
+  }
+  if(e.code === 'Space' && !$('gen').hidden && !['INPUT','BUTTON','TEXTAREA'].includes(document.activeElement.tagName)){ e.preventDefault(); shuffleNow(); }
+});
+
+/* copy, theme */
+$('copy').onclick = async () => {
+  const b = $('copy'), old = b.innerHTML;
+  try { await navigator.clipboard.writeText($('out').textContent); b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>'; }
+  catch(e){ const r = document.createRange(); r.selectNodeContents($('out')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  setTimeout(()=>b.innerHTML = old, 1200);
+};
+const root = document.documentElement;
+const isDark = () => { const t = root.dataset.theme; return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
+try { const s = localStorage.getItem('rb-theme'); if(s) root.dataset.theme = s; } catch(e){}
+$('theme').onclick = () => { const n = isDark() ? 'light' : 'dark'; root.dataset.theme = n; try{ localStorage.setItem('rb-theme', n) }catch(e){} };
+
+if(JERE.startsWith('data:')){ const c = $('credit'), av = document.createElement('span'); av.className = 'av s20'; const img = new Image(); img.src = JERE; img.alt = ''; av.appendChild(img); c.insertBefore(av, c.querySelector('b')); }
+showWho();
+</script>
+</body></html>
