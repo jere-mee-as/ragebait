@@ -132,7 +132,13 @@ button:focus-visible{outline:1.5px solid var(--ink);outline-offset:2px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.tile{opacity:1;transform:none}}
 </style>
-<style>/* sosure look */
+<style>/* sosure copy mark */
+#copy{display:none!important}
+.out .cp{display:inline-flex;align-items:center;justify-content:center;vertical-align:-2px;margin-left:8px;width:20px;height:20px;color:var(--muted);opacity:0;transition:opacity .2s,color .2s;cursor:pointer;border-radius:4px}
+.out .cp svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.line:hover .cp,.out .cp:focus-visible{opacity:.6}.out .cp:hover{opacity:1!important;color:var(--ink)}.out .cp.ok{opacity:1;color:var(--ink)}.out .cp.ok svg{display:none}.out .cp.ok::after{content:"✓";font-size:15px}
+@media (hover:none){.out .cp{opacity:.4}}
+</style><style>/* sosure look */
 :root{--sans:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
 :root:not([data-theme]){--ink:#111;--muted:#9a9a9a;--line:#e6e6e6;--bg:#fff;--ring:#e6e6e6;--pop:#fff;--rage:#e0412f;color-scheme:light;--soft:color-mix(in srgb,#111 74%,#fff);--hover:color-mix(in srgb,#111 8%,#fff);--hover-soft:color-mix(in srgb,#111 5%,#fff);--fill:color-mix(in srgb,#111 6%,#fff);--shadow:0 12px 34px rgba(0,0,0,.16),0 0 0 1px #e6e6e6}
 @media (prefers-color-scheme:dark){:root:not([data-theme]){--ink:#ebebeb;--muted:#6c6c6c;--line:#222;--bg:#0b0b0b;--ring:#222;--pop:#0b0b0b;--rage:#ff6a57;color-scheme:dark;--soft:color-mix(in srgb,#ebebeb 74%,#0b0b0b);--hover:color-mix(in srgb,#ebebeb 8%,#0b0b0b);--hover-soft:color-mix(in srgb,#ebebeb 5%,#0b0b0b);--fill:color-mix(in srgb,#ebebeb 6%,#0b0b0b);--shadow:0 12px 34px rgba(0,0,0,.45),0 0 0 1px #222}}
@@ -621,7 +627,7 @@ showWho();
   ['pointerdown','keydown','touchstart'].forEach(ev => addEventListener(ev, wake, {passive: true, capture: true}));
   /* shuffling: a latch click, then the line lands with a pop */
   const shuffled = () => { play('lock', 1); play('pop', 1.05, .14); };
-  addEventListener('click', e => { const t = e.target.closest('button,li,a'); if(!t) return;
+  addEventListener('click', e => { if(e.target.closest('.cp')){ play('tick', 1.5); return; } const t = e.target.closest('button,li,a'); if(!t) return;
     if(t.id === 'shuffle') shuffled(); else if(t.id === 'back') play('lock', .8);
     else if(t.id === 'copy') play('tick', 1.5); else if(t.classList.contains('pill') || t.classList.contains('tile') || t.classList.contains('chip')) play('blip', 1);
     else if(t.matches('.list li') || t.id === 'trigger') play('tick', 1.1); }, true);
@@ -640,5 +646,16 @@ showWho();
   tb.onclick = e => { e.stopPropagation(); box.classList.toggle('on'); draw(); play('tick', 1); };
   addEventListener('pointerdown', e => { if(box.classList.contains('on') && !e.target.closest('#themes,#theme')) box.classList.remove('on'); });
 })();
+</script>
+<script>
+(function(){ const out = document.getElementById('out'); if(!out) return;
+  const mk = () => { const cp = document.createElement('span'); cp.className = 'cp'; cp.setAttribute('role', 'button'); cp.tabIndex = 0; cp.title = 'Copy'; cp.setAttribute('aria-label', 'Copy this line');
+    cp.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>';
+    const copy = e => { e.stopPropagation(); e.preventDefault(); const txt = [...out.childNodes].filter(n => n !== cp).map(n => n.textContent).join('').trim();
+      try { navigator.clipboard.writeText(txt).catch(() => {}); } catch(err){} cp.classList.add('ok'); setTimeout(() => cp.classList.remove('ok'), 1000); };
+    cp.addEventListener('click', copy); cp.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') copy(e); }); return cp; };
+  /* every new line replaces the text, so put the mark back after it */
+  const add = () => { if(out.textContent.trim() && !out.querySelector('.cp')) out.appendChild(mk()); };
+  new MutationObserver(add).observe(out, {childList: true}); add(); })();
 </script>
 </body></html>
