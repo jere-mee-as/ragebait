@@ -1,7 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Rage Bait Generator</title><meta name="robots" content="noindex, nofollow"><meta name="referrer" content="no-referrer"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}[hidden]{display:none!important}</style></head><body>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Rage Bait Generator</title><meta name="robots" content="noindex, nofollow"><meta name="referrer" content="no-referrer"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}[hidden]{display:none!important}</style></head><body><script>try{var t=localStorage.getItem('rb-theme2');if(t===null){var o=localStorage.getItem('rb-theme');t=o==='light'?'day':o==='dark'?'night':'ink'}if(t)document.documentElement.dataset.theme=t;else delete document.documentElement.dataset.theme}catch(e){document.documentElement.dataset.theme='ink'}</script>
 <style>
 /* Same look as the Philchat generator. Screen 1 "What are they doing?" — a grid of situations.
    Screen 2 — "Rage bait for when they're… [situation]" → the line in a book serif → Shuffle. */
@@ -135,6 +132,28 @@ button:focus-visible{outline:1.5px solid var(--ink);outline-offset:2px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.tile{opacity:1;transform:none}}
 </style>
+<style>/* sosure look */
+:root{--sans:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+:root:not([data-theme]){--ink:#111;--muted:#9a9a9a;--line:#e6e6e6;--bg:#fff;--ring:#e6e6e6;--pop:#fff;--rage:#e0412f;color-scheme:light;--soft:color-mix(in srgb,#111 74%,#fff);--hover:color-mix(in srgb,#111 8%,#fff);--hover-soft:color-mix(in srgb,#111 5%,#fff);--fill:color-mix(in srgb,#111 6%,#fff);--shadow:0 12px 34px rgba(0,0,0,.16),0 0 0 1px #e6e6e6}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){--ink:#ebebeb;--muted:#6c6c6c;--line:#222;--bg:#0b0b0b;--ring:#222;--pop:#0b0b0b;--rage:#ff6a57;color-scheme:dark;--soft:color-mix(in srgb,#ebebeb 74%,#0b0b0b);--hover:color-mix(in srgb,#ebebeb 8%,#0b0b0b);--hover-soft:color-mix(in srgb,#ebebeb 5%,#0b0b0b);--fill:color-mix(in srgb,#ebebeb 6%,#0b0b0b);--shadow:0 12px 34px rgba(0,0,0,.45),0 0 0 1px #222}}
+:root[data-theme=day]{--ink:#111;--muted:#9a9a9a;--line:#e6e6e6;--bg:#fff;--ring:#e6e6e6;--pop:#fff;--rage:#e0412f;color-scheme:light;--soft:color-mix(in srgb,#111 74%,#fff);--hover:color-mix(in srgb,#111 8%,#fff);--hover-soft:color-mix(in srgb,#111 5%,#fff);--fill:color-mix(in srgb,#111 6%,#fff);--shadow:0 12px 34px rgba(0,0,0,.16),0 0 0 1px #e6e6e6}
+:root[data-theme=night]{--ink:#ebebeb;--muted:#6c6c6c;--line:#222;--bg:#0b0b0b;--ring:#222;--pop:#0b0b0b;--rage:#ff6a57;color-scheme:dark;--soft:color-mix(in srgb,#ebebeb 74%,#0b0b0b);--hover:color-mix(in srgb,#ebebeb 8%,#0b0b0b);--hover-soft:color-mix(in srgb,#ebebeb 5%,#0b0b0b);--fill:color-mix(in srgb,#ebebeb 6%,#0b0b0b);--shadow:0 12px 34px rgba(0,0,0,.45),0 0 0 1px #222}
+:root[data-theme=paper]{--ink:#2b241d;--muted:#9a8c79;--line:#e3d9c6;--bg:#f5efe3;--ring:#e3d9c6;--pop:#f5efe3;--rage:#e0412f;color-scheme:light;--soft:color-mix(in srgb,#2b241d 74%,#f5efe3);--hover:color-mix(in srgb,#2b241d 8%,#f5efe3);--hover-soft:color-mix(in srgb,#2b241d 5%,#f5efe3);--fill:color-mix(in srgb,#2b241d 6%,#f5efe3);--shadow:0 12px 34px rgba(0,0,0,.16),0 0 0 1px #e3d9c6}
+:root[data-theme=ink]{--ink:#e9eef6;--muted:#7f93ad;--line:#22385a;--bg:#0f2240;--ring:#22385a;--pop:#0f2240;--rage:#ff6a57;color-scheme:dark;--soft:color-mix(in srgb,#e9eef6 74%,#0f2240);--hover:color-mix(in srgb,#e9eef6 8%,#0f2240);--hover-soft:color-mix(in srgb,#e9eef6 5%,#0f2240);--fill:color-mix(in srgb,#e9eef6 6%,#0f2240);--shadow:0 12px 34px rgba(0,0,0,.45),0 0 0 1px #22385a}
+:root[data-theme=phosphor]{--ink:#9cf29c;--muted:#3f7f3f;--line:#163016;--bg:#060b06;--ring:#163016;--pop:#060b06;--rage:#ff6a57;color-scheme:dark;--soft:color-mix(in srgb,#9cf29c 74%,#060b06);--hover:color-mix(in srgb,#9cf29c 8%,#060b06);--hover-soft:color-mix(in srgb,#9cf29c 5%,#060b06);--fill:color-mix(in srgb,#9cf29c 6%,#060b06);--shadow:0 12px 34px rgba(0,0,0,.45),0 0 0 1px #163016}
+:root[data-theme=rose]{--ink:#3d1f27;--muted:#b38791;--line:#efd8dc;--bg:#fbf1f2;--ring:#efd8dc;--pop:#fbf1f2;--rage:#e0412f;color-scheme:light;--soft:color-mix(in srgb,#3d1f27 74%,#fbf1f2);--hover:color-mix(in srgb,#3d1f27 8%,#fbf1f2);--hover-soft:color-mix(in srgb,#3d1f27 5%,#fbf1f2);--fill:color-mix(in srgb,#3d1f27 6%,#fbf1f2);--shadow:0 12px 34px rgba(0,0,0,.16),0 0 0 1px #efd8dc}
+:root[data-theme=slate]{--ink:#dfe3e8;--muted:#7b8590;--line:#2b3138;--bg:#1b1f24;--ring:#2b3138;--pop:#1b1f24;--rage:#ff6a57;color-scheme:dark;--soft:color-mix(in srgb,#dfe3e8 74%,#1b1f24);--hover:color-mix(in srgb,#dfe3e8 8%,#1b1f24);--hover-soft:color-mix(in srgb,#dfe3e8 5%,#1b1f24);--fill:color-mix(in srgb,#dfe3e8 6%,#1b1f24);--shadow:0 12px 34px rgba(0,0,0,.45),0 0 0 1px #2b3138}
+:root[data-theme=newsprint]{--ink:#151515;--muted:#8a8a84;--line:#d9d8d2;--bg:#ecebe6;--ring:#d9d8d2;--pop:#ecebe6;--rage:#e0412f;color-scheme:light;--soft:color-mix(in srgb,#151515 74%,#ecebe6);--hover:color-mix(in srgb,#151515 8%,#ecebe6);--hover-soft:color-mix(in srgb,#151515 5%,#ecebe6);--fill:color-mix(in srgb,#151515 6%,#ecebe6);--shadow:0 12px 34px rgba(0,0,0,.16),0 0 0 1px #d9d8d2}
+:root[data-theme=phosphor]{--sans:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;--serif:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+:root[data-theme=newsprint]{--sans:"Times New Roman",Times,serif;--serif:"Times New Roman",Times,serif}
+body{font-size:15px}.out{font-size:clamp(21px,3.5vw,25px);line-height:1.5}.shuffle{font-weight:400;font-size:14.5px}.mark b,.credit b,.more a{font-weight:400}
+.actions{position:relative}
+#themes{position:absolute;top:44px;right:0;z-index:30;background:var(--bg);border:1px solid var(--muted);border-radius:12px;padding:14px;display:none;font-size:15px;color:var(--ink);box-shadow:0 12px 34px rgba(0,0,0,.18)}#themes.on{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#themes button{display:flex;align-items:center;gap:10px;color:var(--ink);padding:7px 12px 7px 8px;border-radius:8px;border:1px solid transparent;background:none;font:inherit;cursor:pointer;white-space:nowrap}#themes button:hover{border-color:var(--line)}#themes button[aria-pressed=true]{border-color:var(--ink)}
+#themes i{width:34px;height:24px;border-radius:6px;border:1px solid var(--muted);display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-family:Georgia,serif;flex:none}
+#snd .off{display:none}#snd.muted .on{display:none}#snd.muted .off{display:block}
+@media (max-width:560px){#themes{position:fixed;left:12px;right:12px;top:84px}#themes.on{grid-template-columns:repeat(3,minmax(0,1fr))}#themes button{padding:7px 6px;gap:7px;font-size:14px}}
+</style>
 
 <div class="wrap" id="wrapper">
   <header>
@@ -143,6 +162,7 @@ button:focus-visible{outline:1.5px solid var(--ink);outline-offset:2px}
       <button class="icon" id="copy" aria-label="Copy line" title="Copy" hidden>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
       </button>
+      <button class="icon" id="snd" aria-label="Sound on or off" title="Sound on / off"><svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg></button>
       <button class="icon" id="theme" aria-label="Switch between white and black" title="White / black">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>
       </button>
@@ -583,5 +603,42 @@ $('theme').onclick = () => { const n = isDark() ? 'light' : 'dark'; root.dataset
 
 if(JERE.startsWith('data:')){ const c = $('credit'), av = document.createElement('span'); av.className = 'av s20'; const img = new Image(); img.src = JERE; img.alt = ''; av.appendChild(img); c.insertBefore(av, c.querySelector('b')); }
 showWho();
+</script>
+<script>
+/* sosure shell bits: the nine themes behind the half-circle, and a few synthesized sounds */
+(function(){ const $ = id => document.getElementById(id), r = document.documentElement;
+  /* sound: noise hits and decaying sines, nothing loaded */
+  let ctx = null, buf = null, out = null, on = true, last = 0;
+  try { on = localStorage.getItem('rb-sound') !== 'off'; } catch(e){}
+  function wake(){ try { if(!ctx){ ctx = new (window.AudioContext || window.webkitAudioContext)(); buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate*.03), ctx.sampleRate);
+      const d = buf.getChannelData(0); for(let i = 0; i < d.length; i++) d[i] = (Math.random()*2 - 1) * Math.pow(1 - i/d.length, 7); out = ctx.createGain(); out.gain.value = .8; out.connect(ctx.destination); }
+    if(ctx.state === 'suspended') ctx.resume(); } catch(e){} }
+  function hit(t, type, f0, q, g0, rate){ const s = ctx.createBufferSource(); s.buffer = buf; s.playbackRate.value = rate; const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = f0; f.Q.value = q; const g = ctx.createGain(); g.gain.value = g0; s.connect(f); f.connect(g); g.connect(out); s.start(t); }
+  function tone(t, f0, f1, dur, g0, type){ const o = ctx.createOscillator(); o.type = type || 'sine'; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur); const g = ctx.createGain(); g.gain.setValueAtTime(g0, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur); o.connect(g); g.connect(out); o.start(t); o.stop(t + dur + .02); }
+  const V = { tick: (t, p) => hit(t, 'bandpass', 2600*p, 1.4, .55, p), pop: (t, p) => tone(t, 760*p, 190*p, .06, .26), blip: (t, p) => tone(t, 1150*p, 1100*p, .045, .22),
+    lock: (t, p) => { hit(t, 'bandpass', 3300*p, 14, 2.4, 1.3); hit(t + .011, 'bandpass', 4800*p, 16, 1.6, 1.4); } };
+  function play(v, p, delay){ if(!on || !ctx || ctx.state !== 'running') return; const now = ctx.currentTime + (delay || 0); if(!delay && now - last < .028) return; if(!delay) last = now; try { V[v](now, (p || 1) * (.96 + Math.random()*.08)); } catch(e){} }
+  ['pointerdown','keydown','touchstart'].forEach(ev => addEventListener(ev, wake, {passive: true, capture: true}));
+  /* shuffling: a latch click, then the line lands with a pop */
+  const shuffled = () => { play('lock', 1); play('pop', 1.05, .14); };
+  addEventListener('click', e => { const t = e.target.closest('button,li,a'); if(!t) return;
+    if(t.id === 'shuffle') shuffled(); else if(t.id === 'back') play('lock', .8);
+    else if(t.id === 'copy') play('tick', 1.5); else if(t.classList.contains('pill') || t.classList.contains('tile') || t.classList.contains('chip')) play('blip', 1);
+    else if(t.matches('.list li') || t.id === 'trigger') play('tick', 1.1); }, true);
+  addEventListener('keydown', e => { if(e.key === ' ' && !/INPUT|TEXTAREA|BUTTON/.test(e.target.tagName)) shuffled(); else if(e.key === 'ArrowLeft' && e.target.tagName !== 'INPUT') play('lock', .8); }, true);
+  const sb = $('snd'); sb.classList.toggle('muted', !on);
+  sb.onclick = () => { on = !on; sb.classList.toggle('muted', !on); try { localStorage.setItem('rb-sound', on ? 'on' : 'off'); } catch(e){} if(on){ wake(); setTimeout(() => play('tick', 1), 30); } };
+  /* themes: auto follows the device; the rest are fixed palettes. Ink is the default */
+  const TH = [['', 'auto', '#fff', '#111'], ['day', 'day', '#fff', '#111'], ['night', 'night', '#0b0b0b', '#ebebeb'], ['paper', 'paper', '#f5efe3', '#2b241d'],
+    ['newsprint', 'newsprint', '#ecebe6', '#151515'], ['rose', 'rose', '#fbf1f2', '#3d1f27'], ['ink', 'ink', '#0f2240', '#e9eef6'], ['slate', 'slate', '#1b1f24', '#dfe3e8'], ['phosphor', 'phosphor', '#060b06', '#9cf29c']];
+  const box = document.createElement('div'); box.id = 'themes'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Themes'); $('theme').parentNode.appendChild(box);
+  try { const t = localStorage.getItem('rb-theme2'); if(t === null){ const o = localStorage.getItem('rb-theme'); r.dataset.theme = o === 'light' ? 'day' : o === 'dark' ? 'night' : 'ink'; } else if(t && TH.some(x => x[0] === t)) r.dataset.theme = t; else delete r.dataset.theme; } catch(e){ r.dataset.theme = 'ink'; }
+  const set = k => { if(k) r.dataset.theme = k; else delete r.dataset.theme; try { localStorage.setItem('rb-theme2', k); } catch(e){} draw(); };
+  function draw(){ box.innerHTML = ''; const cur = r.dataset.theme || ''; TH.forEach(([k, name, bg, ink]) => { const b = document.createElement('button'); b.setAttribute('aria-pressed', String(k === cur));
+      const i = document.createElement('i'); i.textContent = 'Aa'; i.style.background = bg; i.style.color = ink; b.append(i, name); b.onclick = () => { set(k); play('tick', 1.2); }; box.appendChild(b); }); }
+  const tb = $('theme'); tb.setAttribute('aria-label', 'Themes'); tb.title = 'Themes';
+  tb.onclick = e => { e.stopPropagation(); box.classList.toggle('on'); draw(); play('tick', 1); };
+  addEventListener('pointerdown', e => { if(box.classList.contains('on') && !e.target.closest('#themes,#theme')) box.classList.remove('on'); });
+})();
 </script>
 </body></html>
